@@ -32,14 +32,14 @@ public class MainActivity extends AppCompatActivity {
         AccountFragment accountFragment = AccountFragment.newInstance();
         accountFragment.attachParent(this);
         getSupportFragmentManager().beginTransaction().replace(R.id.).commit();
-
+        //TODO - im unsure so to what to put for the R.id. line 34
     }
-    @Override
+
     protected void userAccount(String userName, String accountClass){
 
         welcomeText.setVisibility(View.VISIBLE);
         welcomeText.setText(getString(R.string.what_is_your_name), R.string.are_you_a_mage_warrior_or_archer);
-
+        //TODO what is it that youre supposed to put here? this part is quite confusing.
         worldFateText.setVisibility(View.VISIBLE);
         worldFateText.setText(getString(R.string.the_fate_of_the_world_is_in_your_hands));
     }
