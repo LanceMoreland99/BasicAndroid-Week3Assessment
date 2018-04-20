@@ -22,18 +22,60 @@ import butterknife.OnClick;
 
 public class AccountFragment extends Fragment {
 
+
     @BindView(R.id.name_input)
     protected EditText nameInput;
 
     @BindView(R.id.class_input)
     protected EditText classInput;
 
+    private ActivityCallback activityCallback;
+
     @OnClick(R.id.button_finish)
     protected void onFinishButtonClicked(View view) {
 
+        if (classInput.getText().toString().isEmpty() || nameInput.getText().toString().isEmpty()) {
+            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getContext());
+            builder.setTitle("Missing Information")
+                    .setMessage("All Items are required")
+                    .setNeutralButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+
+        } else if (!classInput.getText().toString().isEmpty()) {
+
+            String classType = classInput.getText().toString();
+            String warrior = "warrior";
+            String mage = "mage";
+            String archer = "archer";
+
+
+            if (classType.equalsIgnoreCase(warrior) ||
+                    classType.equalsIgnoreCase(mage) ||
+                    classType.equalsIgnoreCase(archer)) {
+                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getContext());
+                builder.setTitle("Class Name Incorrect")
+                        .setMessage("Warrior, Mage and Archer are all that are allowed here")
+                        .setNeutralButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+            }
+
+        } else {
+            activityCallback.userInformation(nameInput.getText().toString(), classInput.getText().toString());
+
+        }
     }
-
-
 
 
     @Nullable
@@ -54,7 +96,6 @@ public class AccountFragment extends Fragment {
     }
 
 
-
     private void showAlertDialog(String message) {
         AlertDialog.Builder builder;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -71,5 +112,14 @@ public class AccountFragment extends Fragment {
                 })
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
+    }
+
+    public void attachParent(ActivityCallback activityCallback) {
+        this.activityCallback = activityCallback;
+    }
+
+    public interface ActivityCallback {
+
+        void userInformation(String nameInput, String classInput);
     }
 }
